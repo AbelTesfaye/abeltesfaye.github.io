@@ -1,0 +1,317 @@
+<html>
+
+<head>
+    <style>
+        @font-face {
+            font-family: nokiaPure;
+            src: url("fonts/NokiaPure.woff");
+        }
+        
+        body {
+            margin: 0;
+        }
+        
+        #my_canvas {
+            width: 100%;
+            height: 100%;
+            background-color: aqua;
+        }
+        
+        #name {
+            margin-top: 2%;
+            color: antiquewhite;
+            position: absolute;
+            text-align: center;
+            width: 80%;
+            font-family: nokiaPure;
+            font-size: 3em;
+            left: 50%;
+            transform: translate(-50%,0);
+            
+        }
+        
+        #sub_text {
+            color: darkgrey;
+            font-family: monospace;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            font-family: monospace;
+            font-size: 0.6em;
+        }
+        
+        #center_elements {
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            text-align: center;
+            color: darkgrey;
+            position: absolute;
+            font-family: monospace;
+            font-size: 3em;
+            transition: all .5s ease-out;
+            opacity: 0;
+        }
+        
+        #about,
+        #work,
+        #notes,
+        #contact {
+            transition: all 1s ease-out;
+            padding: 1%;
+            opacity: 0;
+            display: none;
+        }
+        
+        a {
+            color: grey;
+            transition: 1s;
+        }
+        
+        a:hover {
+            color: white;
+        }
+        /* .wrapper {
+            position: absolute;
+            overflow: hidden;
+            width: 100%;
+            height: 80%;
+            bottom:0
+        }
+
+        #slide {
+            
+            position: absolute;
+            left: 0;
+            bottom:-100%;
+            width: 100%;
+            height: 80%;
+            background: blue;
+            transition: 1s;
+        }
+
+        .wrapper:hover #slide {
+            transition: 1s;
+            bottom: 0;
+        } */
+        
+        #header {
+            background-color: aquamarine;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="name">
+        Abel Tesfaye
+        <div id="sub_text">
+            <a href="#" onclick="openWindow(this,'about');">about</a> ·
+            <a href="#" onclick="openWindow(this,'work');">work</a> ·
+            <a href="#" onclick="openWindow(this,'notes');">notes</a> ·
+            <a href="#" onclick="openWindow(this,'contact');">contact</a></div>
+
+    </div>
+    <div id="center_elements">
+
+        <div id="about">
+            I'm a CS student at <a target="_blank" href="https://en.wikipedia.org/wiki/Addis_Ababa_University"> Addis Ababa University</a>
+        </div>
+
+        <div id="work">
+            I learn. Yeah..
+        </div>
+
+        <div id="notes">
+            Some observations on planet earth.
+        </div>
+
+        <div id="contact">
+            I don't have a twitter 😢. I need one
+        </div>
+
+    </div>
+
+    <canvas onclick="closeWindows()" id="my_canvas"></canvas>
+
+    <!-- <div class="wrapper">
+        <h1 id="slide"><center>Holla</center></h1>
+    </div> -->
+
+
+
+
+
+    <script src="js/three.min.js"></script>
+    <script>
+        var makeCameraGoUp = false,makeCameraGoDown = false;
+        windows=['about','work','notes','contact']
+
+        var camera, scene, renderer;
+        var geometry, material, mesh;
+
+        init();
+        animate();
+
+        function init() {
+
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+            camera.position.z = 1;
+
+            scene = new THREE.Scene();
+
+            geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+            plane = new THREE.BoxGeometry(2, 0.001, 2);
+
+
+
+            material2 = new THREE.MeshLambertMaterial({
+                emissive: 0xff0000,
+                transparent: true,
+                opacity: 0.9
+            });
+
+            mesh = new THREE.Mesh(geometry, material2);
+
+            othermesh = new THREE.Mesh(plane, material);
+            scene.add(mesh);
+
+
+
+
+            othermesh.position.y = -0.10
+            scene.add(othermesh)
+
+            window.addEventListener('resize', onWindowResize, false);
+
+
+
+            tim = 0
+
+
+            //first point light
+            light = new THREE.PointLight(0xffffff, 1, 4000);
+            light.position.set(0, 0, 0);
+            //the second one
+            light_two = new THREE.PointLight(0xffffff, 1, 4000);
+            light_two.position.set(-100, 800, 800);
+            //And another global lightning some sort of cripple GL
+            lightAmbient = new THREE.AmbientLight(0x404040);
+            scene.add(light, light_two, lightAmbient);
+
+
+
+            my_canvas = document.getElementById("my_canvas");
+
+
+            renderer = new THREE.WebGLRenderer({
+                canvas: my_canvas,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            
+  
+
+        }
+
+        function animate() {
+
+            if (makeCameraGoUp) {
+                if (camera.position.y < 1) {
+                    camera.position.y += 0.02;
+                    makeCameraGoDown = false
+
+                }else{
+                    makeCameraGoUp = false
+                }
+
+            }
+            
+            if (makeCameraGoDown) {
+            console.log(camera.position.y)
+                if (camera.position.y > 0) {
+                    camera.position.y -= 0.02;
+                    makeCameraGoUp = false
+
+                }
+                else{
+                    makeCameraGoDown = false
+                }
+
+            }
+
+            requestAnimationFrame(animate);
+
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;
+
+            tim += 0.01
+
+
+
+            mesh.position.y += 0.001 * Math.cos(tim);
+
+
+
+
+            renderer.render(scene, camera);
+
+        }
+
+
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+        }
+        function hideAllWindows(){
+        
+            var matches = [];
+            var searchEles = document.getElementById("center_elements").children;
+            for (var i = 0; i < searchEles.length; i++) {
+                if (searchEles[i].tagName == 'DIV') {
+                    searchEles[i].style.display = "none"
+                    searchEles[i].style.opacity = 0
+                }
+            }
+
+        }
+
+        function openWindow(ele, windowName) {
+            makeCameraGoUp = true
+
+hideAllWindows()
+
+            console.log("window name" + windowName)
+            ele.style.color = "white"
+
+            document.getElementById(windowName).style.display = "block";
+            document.getElementById("center_elements").style.opacity = 1;
+
+            document.getElementById(windowName).style.opacity = 1;
+
+        }
+        function closeWindows(){
+        makeCameraGoDown = true
+        
+        hideAllWindows()
+        document.getElementById("center_elements").style.opacity = 0;
+
+        console.log("closing")
+        
+        }
+
+       
+    </script>
+
+
+
+</body>
+
+</html>
