@@ -1,45 +1,50 @@
 <html>
+<!-- This page is handwritten by a real human :) -->
 
 <head>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <style>
         @font-face {
             font-family: nokiaPure;
             src: url("fonts/NokiaPure.woff");
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
+            background-color: #000;
         }
-        
+
         #my_canvas {
-            width: 100%;
-            height: 100%;
-            background-color: black;
-        }
-        
-        #name {
-            margin-top: 2%;
-            color: antiquewhite;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
             position: absolute;
-            text-align: center;
-            width: 80%;
-            font-family: nokiaPure;
-            font-size: 3em;
-            left: 50%;
-            transform: translate(-50%,0);
-            
+            z-index: -999;
         }
-        
+
+        #top {
+            padding-top: 2%;
+            color: antiquewhite;
+            text-align: center;
+            font-size: 3em;
+            background-color: #00000077;
+            padding-bottom: 1%;
+        }
+
         #sub_text {
             color: darkgrey;
             font-family: monospace;
-            position: absolute;
             text-align: center;
             width: 100%;
             font-family: monospace;
             font-size: 0.6em;
         }
-        
+
         #center_elements {
             top: 50%;
             left: 50%;
@@ -50,268 +55,539 @@
             color: darkgrey;
             position: absolute;
             font-family: monospace;
-            font-size: 3em;
             transition: all .5s ease-out;
             opacity: 0;
         }
-        
-        #about,
-        #work,
-        #notes,
-        #contact {
-            transition: all 1s ease-out;
-            padding: 1%;
-            opacity: 0;
-            display: none;
-        }
-        
-        a {
+
+        #sub_text a {
             color: grey;
             transition: 1s;
         }
-        
-        a:hover {
+
+        #sub_text a:hover {
             color: white;
         }
-        /* .wrapper {
-            position: absolute;
-            overflow: hidden;
-            width: 100%;
-            height: 80%;
-            bottom:0
-        }
 
-        #slide {
-            
-            position: absolute;
-            left: 0;
-            bottom:-100%;
-            width: 100%;
-            height: 80%;
-            background: blue;
+        a {
+            color: black;
             transition: 1s;
         }
 
-        .wrapper:hover #slide {
-            transition: 1s;
-            bottom: 0;
-        } */
-        
-        #header {
-            background-color: aquamarine;
+        #scrollable {
+            overflow-y: auto;
+            height: 100vh;
+            width: 100vw;
+            font-family: nokiaPure;
+        }
+
+        #portfolio-holder {
+            background-color: transparent;
+        }
+
+        #portfolio-item-holder {
+            background-color: #f0f0f0;
+            padding: 2%;
+            text-align: start;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .portfolio-item {
+            margin: 1%;
+            display: flex;
+            max-width: 800px;
+            transition: all 1s ease-out;
+            width: 100%;
+            height: fit-content;
+        }
+
+        .portfolio-item-description-time {
+            color: #999
+        }
+
+        #portfolio {
+            background-color: #fff;
+            text-align: center;
+            font-size: 3em;
+            transition: all 1s ease-out;
+        }
+
+        .portfolio-item-thumbnail {
+            max-width: 100%;
+            max-height: 50vh;
+            object-fit: contain;
+        }
+
+        .portfolio-item-description-title {
+            font-weight: bold;
+            padding-top: 2%;
+            color: #333;
+        }
+
+        .portfolio-item-description-details {
+            font-weight: 100;
+            color: #5d5d5d;
+            padding-top: 2%;
+            padding-bottom: 2%;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding-right: 2%;
+        }
+
+        #dialog-close-btn-holder {
+            display: inline-block;
+            position: fixed;
+            right: -16;
+            top: -16;
+            background-color: red;
+            border-radius: 50%;
+            width: 32px;
+            font-size: 1em;
+            height: 32px;
+        }
+
+        .portfolio-details-img {
+            margin: 2%;
+            border-radius: 5%;
+        }
+
+        .portfolio-details-title {
+            font-size: 3em;
+            margin: 5%;
+        }
+
+        .portfolio-details-desc {
+            font-size: 2em;
+            min-height: 30vh;
+        }
+
+        .centered-vertical-text {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .portfolio-details-img-holder {
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .portfolio-details-img-holder>a {
+            display: inline-block;
+        }
+
+        .portfolio-item-description-details-text {
+            flex: 1;
+        }
+
+        .fine-print {
+            font-size: 0.3em;
+        }
+
+        #about-me {
+            color: #fff;
+            margin: 0.5%;
+            margin-top: 55vh;
+            padding: 2%
+        }
+
+        #about-me a {
+            color: #fff;
+            transition: all 0s ease-out;
+        }
+
+        #contact-me {
+            color: #fff;
+            margin: 0.5%;
+            padding: 2%;
+            font-size: 0.5em;
+        }
+
+        #contact-me a {
+            transition: all 0s ease-out;
+            color: #fff;
+        }
+
+        #contact-me a:hover,
+        #about-me a:hover {
+            color: #8080c0;
+        }
+
+        .social-icon {
+            margin: 1%;
+            margin-left: 0;
+            display: inline-block;
+
+        }
+
+        .social-icon img:hover {
+            filter: opacity(0.5) drop-shadow(0 0 0 blue);
+        }
+
+        .portfolio-item-thumbnail-holder {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .portfolio-item-description-holder {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item-separator {
+            min-width: 80%;
+            margin: 5%;
+            border: 1px solid #e5e5e5;
+        }
+
+        .portfolio-item-description-details-link {
+            text-decoration: none;
+            transition: all 0s ease-out;
+            padding-right: 2%;
+        }
+
+        .portfolio-item-description-details-link:hover {
+            color: 7a48fa;
+        }
+
+        .portfolio-item-description-details-link-holder {
+            margin-top: 2%;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .portfolio-item {
+                flex-direction: column;
+            }
+
+            .portfolio-item-thumbnail {
+                max-width: 100%;
+                max-height: 50vh;
+            }
+
+            .portfolio-item-description-holder {
+                flex: unset;
+            }
         }
     </style>
-
+    <title>Abel Tesfaye</title>
+    <link rel="icon" type="image/png" href="images/favicon.ico" />
 </head>
 
 <body>
-    <div id="name">
-        Abel Tesfaye
-        <div id="sub_text">
-            <a href="#" onclick="openWindow(this,'about');">about</a> ·
-            <a href="#" onclick="openWindow(this,'work');">work</a> ·
-            <a href="#" onclick="openWindow(this,'notes');">notes</a> ·
-            <a href="#" onclick="openWindow(this,'contact');">contact</a></div>
+    <div id="scrollable">
+        <div id="top">
+            <div id="name">
+                Abel Tesfaye
+            </div>
+            <div id="sub_text">
+                <a href="#about-me" onclick="markAnchorVisited(this);smoothScrollToId(event, 'about-me')">about</a>
+                &middot;
+                <a href="#portfolio"
+                    onclick="markAnchorVisited(this);smoothScrollToId(event, 'portfolio')">portfolio</a>
+                &middot;
+                <a href="#contact" onclick="markAnchorVisited(this);smoothScrollToId(event, 'contact-me')">contact</a>
+            </div>
+        </div>
+        <div id="about-me">
+            <div class="portfolio-details-desc centered-vertical-text">
+                <div>Hi! My name is Abel Tesfaye</div>
+
+                <div>I'm a CS undergrad at <a target="_blank"
+                        href="https://en.wikipedia.org/wiki/Addis_Ababa_University">Addis Ababa University</a></div>
+                <div>
+                    You can find my <a
+                        href="https://docs.google.com/document/d/1WD5oIByx8F81ljcNj6cHjVS7_e1gUqlL_cZEC0TREMo/edit?usp=sharing">
+                        resume here</a>
+                </div>
+                <br />
+                <div class="fine-print">
+                    And just incase you're wondering... I'm not the Canadian
+                    pop star who goes by the stage name "The Weekend" :)
+                </div>
+            </div>
+        </div>
+
+        <div id="portfolio-holder">
+            <div id="portfolio">My portfolio</div>
+            <div id="portfolio-item-holder">
+
+                <div class="portfolio-item">
+                    <div class="portfolio-item-description-holder">
+                        <div class="portfolio-item-description-header">
+                            <div class="portfolio-item-description-title">Google Summer of Code Developer</div>
+                            <div class="portfolio-item-description-time">May 2019 - Sep 2019</div>
+                        </div>
+                        <div class="portfolio-item-description-details">
+                            <div class="portfolio-item-description-details-text">
+                                Spent a summer working on the UI for various components in version 4.0 of VLC
+                            </div>
+                            <div class="portfolio-item-description-details-link-holder">
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://github.com/videolan/vlc/commits?author=AbelTesfaye">
+                                    View my patches
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item-thumbnail-holder">
+                        <img class="portfolio-item-thumbnail" src="images/gsoc/vlc.png" />
+                    </div>
+                </div>
+
+                <hr class="portfolio-item-separator" />
+
+                <div class="portfolio-item">
+                    <div class="portfolio-item-description-holder">
+                        <div class="portfolio-item-description-header">
+                            <div class="portfolio-item-description-title">G12/Fetena</div>
+                            <div class="portfolio-item-description-time">June 2015 - Sep 2018</div>
+                        </div>
+                        <div class="portfolio-item-description-details">
+                            <div class="portfolio-item-description-details-text">
+                                A gamified exam prep app that's been used by 100,000+ students prepare for their
+                                University entrance exams </div>
+                            <div class="portfolio-item-description-details-link-holder">
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://www.youtube.com/watch?v=HVVxXuRX114">
+                                    See demo
+                                </a>
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://github.com/AbelTesfaye/G12Matric">
+                                    View open source version
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item-thumbnail-holder">
+                        <img class="portfolio-item-thumbnail" src="images/fetena/fetena.png" />
+                    </div>
+                </div>
+
+                <hr class="portfolio-item-separator" />
+
+                <div class="portfolio-item">
+                    <div class="portfolio-item-description-holder">
+                        <div class="portfolio-item-description-header">
+                            <div class="portfolio-item-description-title">dingo</div>
+                            <div class="portfolio-item-description-time">January 2019 - June 2020</div>
+                        </div>
+                        <div class="portfolio-item-description-details">
+                            <div class="portfolio-item-description-details-text">
+                                A free and open-source music video streaming app that allows users to discover and play
+                                new
+                                music </div>
+                            <div class="portfolio-item-description-details-link-holder">
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://play.google.com/store/apps/details?id=com.dingo">
+                                    Play store
+                                </a>
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://github.com/AbelTesfaye/dingo">
+                                    Source code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item-thumbnail-holder">
+                        <img class="portfolio-item-thumbnail" src="images/dingo/dingo.png" />
+                    </div>
+                </div>
+
+                <hr class="portfolio-item-separator" />
+
+                <div class="portfolio-item">
+                    <div class="portfolio-item-description-holder">
+                        <div class="portfolio-item-description-header">
+                            <div class="portfolio-item-description-title">4K-Bots</div>
+                            <div class="portfolio-item-description-time">Jan 2018 - Sep 2018</div>
+                        </div>
+                        <div class="portfolio-item-description-details">
+                            <div class="portfolio-item-description-details-text">
+                                Used image-processing and machine learning on 3 humanoid robots to win a continental
+                                level robotics competition </div>
+                            <div class="portfolio-item-description-details-link-holder">
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://www.facebook.com/icoglabs/posts/815907721938591">
+                                    We won!
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item-thumbnail-holder">
+                        <img class="portfolio-item-thumbnail" src="images/4kbots/4kbots.png" />
+                    </div>
+                </div>
+
+                <hr class="portfolio-item-separator" />
+
+                <div class="portfolio-item">
+                    <div class="portfolio-item-description-holder">
+                        <div class="portfolio-item-description-header">
+                            <div class="portfolio-item-description-title">Mario-Console</div>
+                            <div class="portfolio-item-description-time">Nov 2017 - Feb 2018</div>
+                        </div>
+                        <div class="portfolio-item-description-details">
+                            <div class="portfolio-item-description-details-text">
+                                A console version super-mario deliberately made without using any game libraries
+                            </div>
+                            <div class="portfolio-item-description-details-link-holder">
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://github.com/AbelTesfaye/mario-console/blob/master/extras/gameplay.mp4?raw=true">
+                                    View demo
+                                </a>
+                                <a class="portfolio-item-description-details-link"
+                                    href="https://github.com/AbelTesfaye/mario-console">
+                                    Source code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item-thumbnail-holder">
+                        <img class="portfolio-item-thumbnail" src="images/mario-console/mario.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="contact-me">
+            <div class="portfolio-details-desc centered-vertical-text">
+                <h3>Contact me</h3>
+                <div>
+                    *The best way to reach me is via email: <a target="_blank"
+                        href="mailto:abeltesfaye45@gmail.com">abeltesfaye45@gmail.com</a>
+                </div>
+                <br />
+                <div>
+                    <div>Other links:</div>
+                    <div>
+                        <a class="social-icon" target="_blank" href="https://github.com/AbelTesfaye">
+                            <img src="images/github.png" width="32" height="32" /></a>
+                        <a class="social-icon" target="_blank"
+                            href="https://www.linkedin.com/in/abel-tesfaye-00b369136/">
+                            <img src="images/linkedin.png" width="32" height="32" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
-    <div id="center_elements">
-
-        <div id="about">
-            I'm a CS student at <a target="_blank" href="https://en.wikipedia.org/wiki/Addis_Ababa_University"> Addis Ababa University</a>
-        </div>
-
-        <div id="work">
-            I learn. Yeah..
-        </div>
-
-        <div id="notes">
-            Some observations on planet earth.
-        </div>
-
-        <div id="contact">
-            I don't have a twitter 😢. I need one
-        </div>
-
-    </div>
-
-    <canvas onclick="closeWindows()" id="my_canvas"></canvas>
-
-    <!-- <div class="wrapper">
-        <h1 id="slide"><center>Holla</center></h1>
-    </div> -->
-
-
-
-
+    <canvas id="my_canvas"></canvas>
 
     <script src="js/three.min.js"></script>
     <script>
-        var makeCameraGoUp = false,makeCameraGoDown = false;
-        windows=['about','work','notes','contact']
+        const portfolioHolderTitle = document.getElementById("portfolio");
+        const scrollableDiv = document.getElementById("scrollable");
 
-        var camera, scene, renderer;
-        var geometry, material, mesh;
+        let makeCameraGoUp = false,
+            makeCameraGoDown = false,
+            isCameraUp = false;
+
+        let prevSelectedAnchor = null;
+
+        let camera, scene, renderer;
+        let geometry, centerMesh, tim, group;
 
         init();
         animate();
 
         function init() {
-
             camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
-            camera.position.z = 1;
-
             scene = new THREE.Scene();
-
-            geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-            plane = new THREE.BoxGeometry(2, 0.001, 2);
-
-
-
-            material2 = new THREE.MeshLambertMaterial({
-                emissive: 0xff0000,
-                transparent: true,
-                opacity: 0.9
+            scene.background = new THREE.Color(0x000000);
+            const centerGeometry = new THREE.TorusKnotGeometry(0.01, 0.4, 10, 5, 1);
+            const centerMaterial = new THREE.MeshStandardMaterial({
+                // roughness: 1,
+                wireframe: true
             });
 
-            mesh = new THREE.Mesh(geometry, material2);
+            centerMesh = new THREE.Mesh(centerGeometry, centerMaterial);
 
-            othermesh = new THREE.Mesh(plane, material);
-            scene.add(mesh);
+            const light1 = new THREE.PointLight(0xff0000, 2, 50);
+            light1.position.y = 5
+            light1.castShadow = true
 
-
-
-
-            othermesh.position.y = -0.10
-            scene.add(othermesh)
+            scene.add(light1)
+            scene.add(centerMesh)
 
             window.addEventListener('resize', onWindowResize, false);
-
-
-
             tim = 0
 
-
-            //first point light
-            light = new THREE.PointLight(0xffffff, 1, 4000);
-            light.position.set(0, 0, 0);
-            //the second one
-            light_two = new THREE.PointLight(0xffffff, 1, 4000);
-            light_two.position.set(-100, 800, 800);
-            //And another global lightning some sort of cripple GL
-            lightAmbient = new THREE.AmbientLight(0x404040);
-            scene.add(light, light_two, lightAmbient);
-
-
-
             my_canvas = document.getElementById("my_canvas");
-
-
             renderer = new THREE.WebGLRenderer({
                 canvas: my_canvas,
                 antialias: true
             });
+
+            camera.position.z = 1;
+
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
-            
-  
-
         }
 
         function animate() {
-
+            if (makeCameraGoDown) {
+                if (camera.position.y > 0) {
+                    camera.position.y -= 0.02;
+                    makeCameraGoUp = false
+                    isCameraUp = false
+                } else {
+                    makeCameraGoDown = false
+                }
+            }
             if (makeCameraGoUp) {
                 if (camera.position.y < 1) {
                     camera.position.y += 0.02;
                     makeCameraGoDown = false
-
-                }else{
+                    isCameraUp = true;
+                } else {
                     makeCameraGoUp = false
                 }
-
             }
-            
-            if (makeCameraGoDown) {
-            console.log(camera.position.y)
-                if (camera.position.y > 0) {
-                    camera.position.y -= 0.02;
-                    makeCameraGoUp = false
-
-                }
-                else{
-                    makeCameraGoDown = false
-                }
-
-            }
-
             requestAnimationFrame(animate);
-
-            mesh.rotation.x += 0.01;
-            mesh.rotation.y += 0.01;
-
+            centerMesh.rotation.x += 0.01;
+            centerMesh.rotation.y += 0.01;
             tim += 0.01
-
-
-
-            mesh.position.y += 0.001 * Math.cos(tim);
-
-
-
-
+            centerMesh.position.y -= 0.001 * Math.cos(tim);
             renderer.render(scene, camera);
-
         }
 
 
         function onWindowResize() {
-
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-
             renderer.setSize(window.innerWidth, window.innerHeight);
-
-        }
-        function hideAllWindows(){
-        
-            var matches = [];
-            var searchEles = document.getElementById("center_elements").children;
-            for (var i = 0; i < searchEles.length; i++) {
-                if (searchEles[i].tagName == 'DIV') {
-                    searchEles[i].style.display = "none"
-                    searchEles[i].style.opacity = 0
-                }
-            }
-
         }
 
-        function openWindow(ele, windowName) {
-            makeCameraGoUp = true
-
-hideAllWindows()
-
-            console.log("window name" + windowName)
+        function markAnchorVisited(ele) {
             ele.style.color = "white"
-
-            document.getElementById(windowName).style.display = "block";
-            document.getElementById("center_elements").style.opacity = 1;
-
-            document.getElementById(windowName).style.opacity = 1;
-
-        }
-        function closeWindows(){
-        makeCameraGoDown = true
-        
-        hideAllWindows()
-        document.getElementById("center_elements").style.opacity = 0;
-
-        console.log("closing")
-        
         }
 
-       
+        function smoothScrollToId(ev, id) {
+            ev.preventDefault();
+
+            history.pushState({}, "Abel Tesfaye", '?' + id)
+            document.getElementById('my_img').src = document.getElementById('my_img').src + "?p=" + new Date()
+                .getTime();
+
+            const offsetTop = document.getElementById(id).offsetTop;
+
+            scrollableDiv.scroll({
+                top: offsetTop,
+                behavior: "smooth"
+            });
+        }
     </script>
-
-
-
+    <img id="my_img" style="display: none;" src="https://joinmy.site/Q91WEN" />
 </body>
 
 </html>
